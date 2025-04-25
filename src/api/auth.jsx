@@ -1,30 +1,35 @@
 // src/api/auth.js
 export const login = async (username, password) => {
   try {
-    const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/auth/login`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ username, password })
-    });
+    const response = await fetch(
+      `${process.env.REACT_APP_API_BASE_URL}/api/auth/login`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username, password }),
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => console.log(data))
+      .catch((err) => console.error("Login error", err));
 
     const data = await response.json();
-    
+
     // Handle both string and object responses
     const token = data.token || data;
-    
+
     if (!token || !response.ok) {
-      throw new Error(data.message || 'Login failed');
+      throw new Error(data.message || "Login failed");
     }
 
-    localStorage.setItem('token', token);
+    localStorage.setItem("token", token);
     return { success: true, token };
-    
   } catch (error) {
     return {
       success: false,
-      message: error.message || 'Network error'
+      message: error.message || "Network error",
     };
   }
 };

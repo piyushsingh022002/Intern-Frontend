@@ -1,15 +1,17 @@
 export const login = async (username, password) => {
   try {
-    const response = await fetch(
-      `https://intern-frontend-sooty.vercel.app/api/auth/login`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ username, password }),
-      }
-    );
+    const response = await fetch('https://internmanagementapi-backend.onrender.com', {
+      method: 'GET', // or 'POST', 'PUT', etc.
+      headers: {
+        'Content-Type': 'application/json',
+        // add any custom headers if needed
+      },
+      credentials: 'include', // only if you're using cookies or auth headers
+    })
+      .then(response => response.json())
+      .then(data => console.log(data))
+      .catch(error => console.error('Error:', error));
+    
 
     const data = await response.json(); // ✅ safely parse
 

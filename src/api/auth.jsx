@@ -1,16 +1,22 @@
 export const login = async (username, password) => {
   try {
-    const response = await fetch('https://internmanagementapi-backend.onrender.com', {
-      method: 'GET', // or 'POST', 'PUT', etc.
+    const response = await fetch('https://your-backend-api.com/data', {
+      method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        // add any custom headers if needed
       },
-      credentials: 'include', // only if you're using cookies or auth headers
+      credentials: 'include', // if needed
     })
-      .then(response => response.json())
+      .then(async response => {
+        if (!response.ok) {
+          const errorText = await response.text(); // or response.json() if your API sends JSON errors
+          throw new Error(`Server responded with ${response.status}: ${errorText}`);
+        }
+        return response.json();
+      })
       .then(data => console.log(data))
-      .catch(error => console.error('Error:', error));
+      .catch(error => console.error('Fetch error:', error));
+    
     
 
     const data = await response.json(); // ✅ safely parse

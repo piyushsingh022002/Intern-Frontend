@@ -1,8 +1,7 @@
-// src/api/auth.js
 export const login = async (username, password) => {
   try {
     const response = await fetch(
-      `${process.env.REACT_APP_API_BASE_URL}/api/auth/login`,
+      `https://intern-frontend-sooty.vercel.app/api/auth/login`,
       {
         method: "POST",
         headers: {
@@ -10,23 +9,24 @@ export const login = async (username, password) => {
         },
         body: JSON.stringify({ username, password }),
       }
-    )
-      .then((res) => res.json())
-      .then((data) => console.log(data))
-      .catch((err) => console.error("Login error", err));
+    );
 
-    const data = await response.json();
+    const data = await response.json(); // ✅ safely parse
 
-    // Handle both string and object responses
+    if (!response.ok) {
+      throw new Error(data.message || "Login failed");
+    }
+
     const token = data.token || data;
 
-    if (!token || !response.ok) {
-      throw new Error(data.message || "Login failed");
+    if (!token) {
+      throw new Error("Token not received");
     }
 
     localStorage.setItem("token", token);
     return { success: true, token };
   } catch (error) {
+    console.error("Login error", error.message);
     return {
       success: false,
       message: error.message || "Network error",

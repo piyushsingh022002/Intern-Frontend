@@ -1,35 +1,34 @@
-// src/pages/Login.jsx
-import { useState } from 'react';
-import { login } from '../api/auth';
+import { useState } from "react";
+import { login } from "../api/auth";
 
 export default function Login() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [status, setStatus] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [status, setStatus] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setStatus('Logging in...');
-    
+    setStatus("Logging in...");
     const result = await login(username, password);
-    
+
     if (result.success) {
-      setStatus(`✅ Success! Token stored. Check console for details.`);
-      console.log('JWT Token:', result.token);
+      setStatus("✅ Success! Token stored. Check console.");
     } else {
       setStatus(`❌ Error: ${result.message}`);
     }
   };
 
   return (
-    <div style={{ 
-      maxWidth: 400, 
-      margin: '100px auto',
-      padding: 20,
-      border: '1px solid #ccc',
-      borderRadius: 8
-    }}>
-      <h2 style={{ textAlign: 'center' }}>Login</h2>
+    <div
+      style={{
+        maxWidth: 400,
+        margin: "100px auto",
+        padding: 20,
+        border: "1px solid #ccc",
+        borderRadius: 8,
+      }}
+    >
+      <h2 style={{ textAlign: "center" }}>Login</h2>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
@@ -37,12 +36,12 @@ export default function Login() {
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           required
-          style={{ 
-            display: 'block', 
-            width: '100%', 
+          style={{
+            display: "block",
+            width: "100%",
             padding: 8,
             marginBottom: 10,
-            boxSizing: 'border-box'
+            boxSizing: "border-box",
           }}
         />
         <input
@@ -51,37 +50,39 @@ export default function Login() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
-          style={{ 
-            display: 'block', 
-            width: '100%', 
+          style={{
+            display: "block",
+            width: "100%",
             padding: 8,
             marginBottom: 10,
-            boxSizing: 'border-box'
+            boxSizing: "border-box",
           }}
         />
-        <button 
+        <button
           type="submit"
           style={{
-            width: '100%',
+            width: "100%",
             padding: 10,
-            backgroundColor: '#007bff',
-            color: 'white',
-            border: 'none',
-            borderRadius: 4
+            backgroundColor: "#007bff",
+            color: "white",
+            border: "none",
+            borderRadius: 4,
           }}
         >
           Login
         </button>
       </form>
-      
+
       {status && (
-        <div style={{ 
-          marginTop: 20,
-          padding: 10,
-          background: status.includes('✅') ? '#e6ffed' : '#fff3f3',
-          borderRadius: 4,
-          textAlign: 'center'
-        }}>
+        <div
+          style={{
+            marginTop: 20,
+            padding: 10,
+            background: status.includes("✅") ? "#e6ffed" : "#fff3f3",
+            borderRadius: 4,
+            textAlign: "center",
+          }}
+        >
           {status}
         </div>
       )}
